@@ -48,7 +48,13 @@ namespace NetMail
         /// <returns>String</returns>
         public string ReceiverDisplayName { get; set; }
         /// <summary>
-        /// Gets or Sets the sender's's display name
+        /// Gets or Sets the sender's email address
+        /// </summary>
+        /// <value>String</value>
+        /// <returns>String</returns>
+        public string Sender { get; set; }
+        /// <summary>
+        /// Gets or Sets the sender's display name
         /// </summary>
         /// <value>String</value>
         /// <returns>String</returns>
@@ -122,16 +128,10 @@ namespace NetMail
         {
             get { return errorList; }
         }
-
         /// <summary>
-        /// Returns the mails from PRHIN
+        /// Gets the messages that were downloaded through POP3 if fetching from the server
         /// </summary>
-        /// <value>DataSet</value>
-        /// <returns>DataSet</returns>
-        public DataSet Messages
-        {
-            get { return theMail; }
-        }
+        public dsTables DownloadedMessages { get; private set; }
 
         private ErrorManager error;
         private List<ErrorManager> errorList;
@@ -144,6 +144,7 @@ namespace NetMail
         {
             error = null;
             errorList = new List<ErrorManager>();
+            DownloadedMessages = new dsTables();
             AttachmentUrls = null;
             EnableSSL = true;
         }
@@ -227,11 +228,22 @@ namespace NetMail
                 SmtpClient client = BuildSmtp(serverAddress, userName, password, port, useSSL);
                 MailMessage mail = BuildMail(from, fromDisplayName, to, toDisplayName, subject, body, priority, attachmentsUrls);
 
+                client.UseDefaultCredentials = false;
                 client.Send(mail);
                 mail.Dispose();
                 client.Dispose();
 
                 return true;
+            }
+            catch (SmtpException smtp)
+            {
+                error = new ErrorManager();
+                error.Message = smtp.Message;
+                error.Source = smtp.Source;
+                error.InnerException = smtp.InnerException;
+                errorList.Add(error);
+
+                return false;
             }
             catch (Exception ex)
             {
@@ -254,13 +266,24 @@ namespace NetMail
             try
             {
                 SmtpClient client = BuildSmtp(SMTPHost, SMTPUsername, SMTPPassword, SMTPPort, EnableSSL);
-                MailMessage mail = BuildMail(SMTPUsername, SenderDisplayName, Receiver, ReceiverDisplayName, Subject, Body, Priority, AttachmentUrls);
+                MailMessage mail = BuildMail(Sender, SenderDisplayName, Receiver, ReceiverDisplayName, Subject, Body, Priority, AttachmentUrls);
 
+                client.UseDefaultCredentials = false;
                 client.Send(mail);
                 mail.Dispose();
                 client.Dispose();
 
                 return true;
+            }
+            catch (SmtpException smtp)
+            {
+                error = new ErrorManager();
+                error.Message = smtp.Message;
+                error.Source = smtp.Source;
+                error.InnerException = smtp.InnerException;
+                errorList.Add(error);
+
+                return false;
             }
             catch (Exception ex)
             {
@@ -271,6 +294,98 @@ namespace NetMail
                 errorList.Add(error);
 
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Example showing:
+        ///  - how to use UID's (unique ID's) of messages from the POP3 server
+        ///  - how to download messages not seen before
+        ///    (notice that the POP3 protocol cannot see if a message has been read on the server
+        ///     before. Therefore the client need to maintain this state for itself)
+        /// </summary>       
+        /// <param name="seenUids">
+        /// List of UID's of all messages seen before.
+        /// New message UID's will be added to the list.
+        /// Consider using a HashSet if you are using >= 3.5 .NET
+        /// </param>
+        /// <returns>A List of new Messages on the server</returns>
+        public void FetchUnseenMessages(List<string> seenUids)
+        {
+            // The client disconnects from the server when being disposed
+            using (Pop3Client client = new Pop3Client())
+            {
+                // Connect to the server
+                client.Connect(POPHost, POPPort, EnableSSL);
+
+                // Authenticate ourselves towards the server
+                client.Authenticate(POPUsername, POPPassword);
+
+                // Fetch all the current uids seen
+                List<string> uids = client.GetMessageUids();
+
+                // Create a list we can return with all new messages
+                List<Message> newMessages = new List<Message>();
+
+                // All the new messages not seen by the POP3 client
+                for (int i = 0; i < uids.Count; i++)
+                {
+                    string currentUidOnServer = uids[i];
+                    if (!seenUids.Contains(currentUidOnServer))
+                    {
+                        // We have not seen this message before.
+                        // Download it and add this new uid to seen uids
+
+                        // the uids list is in messageNumber order - meaning that the first
+                        // uid in the list has messageNumber of 1, and the second has 
+                        // messageNumber 2. Therefore we can fetch the message using
+                        // i + 1 since messageNumber should be in range [1, messageCount]
+                        Message unseenMessage = client.GetMessage(i + 1);
+
+                        // Add the message to the new messages
+                        newMessages.Add(unseenMessage);
+
+                        // Add the uid to the seen uids, as it has now been seen
+                        seenUids.Add(currentUidOnServer);
+                    }
+                }                
+            }            
+        }
+
+        /// <summary>
+        /// Example showing:
+        ///  - how to fetch all messages from a POP3 server
+        /// </summary>
+        /// <param name="hostname">Hostname of the server. For example: pop3.live.com</param>
+        /// <param name="port">Host port to connect to. Normally: 110 for plain POP3, 995 for SSL POP3</param>
+        /// <param name="useSsl">Whether or not to use SSL to connect to server</param>
+        /// <param name="username">Username of the user on the server</param>
+        /// <param name="password">Password of the user on the server</param>
+        /// <returns>All Messages on the POP3 server</returns>
+        public void FetchAllMessages()
+        {
+            // The client disconnects from the server when being disposed
+            using (Pop3Client client = new Pop3Client())
+            {
+                // Connect to the server
+                client.Connect(POPHost, POPPort, EnableSSL);
+
+                // Authenticate ourselves towards the server
+                client.Authenticate(POPUsername, POPPassword);
+
+                // Get the number of messages in the inbox
+                int messageCount = client.GetMessageCount();
+
+                // We want to download all messages
+                List<Message> allMessages = new List<Message>(messageCount);
+
+                // Messages are numbered in the interval: [1, messageCount]
+                // Ergo: message numbers are 1-based.
+                // Most servers give the latest message the highest number
+                for (int i = messageCount; i > 0; i--)
+                {
+                    allMessages.Add(client.GetMessage(i));
+                }
             }
         }
     }

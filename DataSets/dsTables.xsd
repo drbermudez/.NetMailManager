@@ -12,7 +12,7 @@
   <xs:element name="dsTables" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsTables" msprop:Generator_UserDSName="dsTables">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="Mensaje" msprop:Generator_TableClassName="MensajeDataTable" msprop:Generator_TableVarName="tableMensaje" msprop:Generator_RowChangedName="MensajeRowChanged" msprop:Generator_TablePropName="Mensaje" msprop:Generator_RowDeletingName="MensajeRowDeleting" msprop:Generator_RowChangingName="MensajeRowChanging" msprop:Generator_RowEvHandlerName="MensajeRowChangeEventHandler" msprop:Generator_RowDeletedName="MensajeRowDeleted" msprop:Generator_RowClassName="MensajeRow" msprop:Generator_UserTableName="Mensaje" msprop:Generator_RowEvArgName="MensajeRowChangeEvent">
+        <xs:element name="Message" msprop:Generator_TableClassName="MessageDataTable" msprop:Generator_TableVarName="tableMessage" msprop:Generator_TablePropName="Message" msprop:Generator_RowDeletingName="MessageRowDeleting" msprop:Generator_RowChangingName="MessageRowChanging" msprop:Generator_RowEvHandlerName="MessageRowChangeEventHandler" msprop:Generator_RowDeletedName="MessageRowDeleted" msprop:Generator_UserTableName="Message" msprop:Generator_RowChangedName="MessageRowChanged" msprop:Generator_RowEvArgName="MessageRowChangeEvent" msprop:Generator_RowClassName="MessageRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Subject" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="Subject" msprop:Generator_ColumnVarNameInTable="columnSubject" msprop:Generator_ColumnPropNameInTable="SubjectColumn" msprop:Generator_UserColumnName="Subject" type="xs:string" default="" minOccurs="0" />
@@ -28,7 +28,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Attachments" msprop:Generator_TableClassName="AttachmentsDataTable" msprop:Generator_TableVarName="tableAttachments" msprop:Generator_RowChangedName="AttachmentsRowChanged" msprop:Generator_TablePropName="Attachments" msprop:Generator_RowDeletingName="AttachmentsRowDeleting" msprop:Generator_RowChangingName="AttachmentsRowChanging" msprop:Generator_RowEvHandlerName="AttachmentsRowChangeEventHandler" msprop:Generator_RowDeletedName="AttachmentsRowDeleted" msprop:Generator_RowClassName="AttachmentsRow" msprop:Generator_UserTableName="Attachments" msprop:Generator_RowEvArgName="AttachmentsRowChangeEvent">
+        <xs:element name="Attachments" msprop:Generator_TableClassName="AttachmentsDataTable" msprop:Generator_TableVarName="tableAttachments" msprop:Generator_TablePropName="Attachments" msprop:Generator_RowDeletingName="AttachmentsRowDeleting" msprop:Generator_RowChangingName="AttachmentsRowChanging" msprop:Generator_RowEvHandlerName="AttachmentsRowChangeEventHandler" msprop:Generator_RowDeletedName="AttachmentsRowDeleted" msprop:Generator_UserTableName="Attachments" msprop:Generator_RowChangedName="AttachmentsRowChanged" msprop:Generator_RowEvArgName="AttachmentsRowChangeEvent" msprop:Generator_RowClassName="AttachmentsRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="MessageId" msprop:Generator_ColumnVarNameInTable="columnMessageId" msprop:Generator_ColumnPropNameInRow="MessageId" msprop:Generator_ColumnPropNameInTable="MessageIdColumn" msprop:Generator_UserColumnName="MessageId" type="xs:int" default="-1" />
@@ -39,7 +39,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Headers" msprop:Generator_TableClassName="HeadersDataTable" msprop:Generator_TableVarName="tableHeaders" msprop:Generator_TablePropName="Headers" msprop:Generator_RowDeletingName="HeadersRowDeleting" msprop:Generator_RowChangingName="HeadersRowChanging" msprop:Generator_RowEvHandlerName="HeadersRowChangeEventHandler" msprop:Generator_RowDeletedName="HeadersRowDeleted" msprop:Generator_UserTableName="Headers" msprop:Generator_RowChangedName="HeadersRowChanged" msprop:Generator_RowEvArgName="HeadersRowChangeEvent" msprop:Generator_RowClassName="HeadersRow">
+        <xs:element name="MessageHeaders" msprop:Generator_TableClassName="MessageHeadersDataTable" msprop:Generator_TableVarName="tableMessageHeaders" msprop:Generator_RowChangedName="MessageHeadersRowChanged" msprop:Generator_TablePropName="MessageHeaders" msprop:Generator_RowDeletingName="MessageHeadersRowDeleting" msprop:Generator_RowChangingName="MessageHeadersRowChanging" msprop:Generator_RowEvHandlerName="MessageHeadersRowChangeEventHandler" msprop:Generator_RowDeletedName="MessageHeadersRowDeleted" msprop:Generator_RowClassName="MessageHeadersRow" msprop:Generator_UserTableName="MessageHeaders" msprop:Generator_RowEvArgName="MessageHeadersRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="FromSubject" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="FromSubject" msprop:Generator_ColumnVarNameInTable="columnFromSubject" msprop:Generator_ColumnPropNameInTable="FromSubjectColumn" msprop:Generator_UserColumnName="FromSubject" type="xs:string" default="" minOccurs="0" />
@@ -53,14 +53,14 @@
       </xs:choice>
     </xs:complexType>
     <xs:unique name="Constraint1" msdata:PrimaryKey="true">
-      <xs:selector xpath=".//mstns:Mensaje" />
+      <xs:selector xpath=".//mstns:Message" />
       <xs:field xpath="mstns:MessageId" />
     </xs:unique>
     <xs:unique name="Attachments_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
       <xs:selector xpath=".//mstns:Attachments" />
       <xs:field xpath="mstns:AttachmentId" />
     </xs:unique>
-    <xs:keyref name="FK_Mensaje_Attachments" refer="Constraint1" msprop:rel_Generator_UserChildTable="Attachments" msprop:rel_Generator_ChildPropName="GetAttachmentsRows" msprop:rel_Generator_UserRelationName="FK_Mensaje_Attachments" msprop:rel_Generator_RelationVarName="relationFK_Mensaje_Attachments" msprop:rel_Generator_UserParentTable="Mensaje" msprop:rel_Generator_ParentPropName="MensajeRow" msdata:AcceptRejectRule="Cascade">
+    <xs:keyref name="FK_Mensaje_Attachments" refer="Constraint1" msprop:rel_Generator_UserChildTable="Attachments" msprop:rel_Generator_ChildPropName="GetAttachmentsRows" msprop:rel_Generator_UserRelationName="FK_Mensaje_Attachments" msprop:rel_Generator_ParentPropName="MensajeRow" msprop:rel_Generator_RelationVarName="relationFK_Mensaje_Attachments" msprop:rel_Generator_UserParentTable="Message" msdata:AcceptRejectRule="Cascade">
       <xs:selector xpath=".//mstns:Attachments" />
       <xs:field xpath="mstns:MessageId" />
     </xs:keyref>

@@ -24,11 +24,11 @@ namespace NetMail.DataSets {
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
     public partial class dsTables : global::System.Data.DataSet {
         
-        private MensajeDataTable tableMensaje;
+        private MessageDataTable tableMessage;
         
         private AttachmentsDataTable tableAttachments;
         
-        private HeadersDataTable tableHeaders;
+        private MessageHeadersDataTable tableMessageHeaders;
         
         private global::System.Data.DataRelation relationFK_Mensaje_Attachments;
         
@@ -60,14 +60,14 @@ namespace NetMail.DataSets {
             if ((this.DetermineSchemaSerializationMode(info, context) == global::System.Data.SchemaSerializationMode.IncludeSchema)) {
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXmlSchema(new global::System.Xml.XmlTextReader(new global::System.IO.StringReader(strSchema)));
-                if ((ds.Tables["Mensaje"] != null)) {
-                    base.Tables.Add(new MensajeDataTable(ds.Tables["Mensaje"]));
+                if ((ds.Tables["Message"] != null)) {
+                    base.Tables.Add(new MessageDataTable(ds.Tables["Message"]));
                 }
                 if ((ds.Tables["Attachments"] != null)) {
                     base.Tables.Add(new AttachmentsDataTable(ds.Tables["Attachments"]));
                 }
-                if ((ds.Tables["Headers"] != null)) {
-                    base.Tables.Add(new HeadersDataTable(ds.Tables["Headers"]));
+                if ((ds.Tables["MessageHeaders"] != null)) {
+                    base.Tables.Add(new MessageHeadersDataTable(ds.Tables["MessageHeaders"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -91,9 +91,9 @@ namespace NetMail.DataSets {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public MensajeDataTable Mensaje {
+        public MessageDataTable Message {
             get {
-                return this.tableMensaje;
+                return this.tableMessage;
             }
         }
         
@@ -111,9 +111,9 @@ namespace NetMail.DataSets {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public HeadersDataTable Headers {
+        public MessageHeadersDataTable MessageHeaders {
             get {
-                return this.tableHeaders;
+                return this.tableMessageHeaders;
             }
         }
         
@@ -184,14 +184,14 @@ namespace NetMail.DataSets {
                 this.Reset();
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXml(reader);
-                if ((ds.Tables["Mensaje"] != null)) {
-                    base.Tables.Add(new MensajeDataTable(ds.Tables["Mensaje"]));
+                if ((ds.Tables["Message"] != null)) {
+                    base.Tables.Add(new MessageDataTable(ds.Tables["Message"]));
                 }
                 if ((ds.Tables["Attachments"] != null)) {
                     base.Tables.Add(new AttachmentsDataTable(ds.Tables["Attachments"]));
                 }
-                if ((ds.Tables["Headers"] != null)) {
-                    base.Tables.Add(new HeadersDataTable(ds.Tables["Headers"]));
+                if ((ds.Tables["MessageHeaders"] != null)) {
+                    base.Tables.Add(new MessageHeadersDataTable(ds.Tables["MessageHeaders"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -226,10 +226,10 @@ namespace NetMail.DataSets {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         internal void InitVars(bool initTable) {
-            this.tableMensaje = ((MensajeDataTable)(base.Tables["Mensaje"]));
+            this.tableMessage = ((MessageDataTable)(base.Tables["Message"]));
             if ((initTable == true)) {
-                if ((this.tableMensaje != null)) {
-                    this.tableMensaje.InitVars();
+                if ((this.tableMessage != null)) {
+                    this.tableMessage.InitVars();
                 }
             }
             this.tableAttachments = ((AttachmentsDataTable)(base.Tables["Attachments"]));
@@ -238,10 +238,10 @@ namespace NetMail.DataSets {
                     this.tableAttachments.InitVars();
                 }
             }
-            this.tableHeaders = ((HeadersDataTable)(base.Tables["Headers"]));
+            this.tableMessageHeaders = ((MessageHeadersDataTable)(base.Tables["MessageHeaders"]));
             if ((initTable == true)) {
-                if ((this.tableHeaders != null)) {
-                    this.tableHeaders.InitVars();
+                if ((this.tableMessageHeaders != null)) {
+                    this.tableMessageHeaders.InitVars();
                 }
             }
             this.relationFK_Mensaje_Attachments = this.Relations["FK_Mensaje_Attachments"];
@@ -255,29 +255,29 @@ namespace NetMail.DataSets {
             this.Namespace = "http://tempuri.org/dsTables.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
-            this.tableMensaje = new MensajeDataTable();
-            base.Tables.Add(this.tableMensaje);
+            this.tableMessage = new MessageDataTable();
+            base.Tables.Add(this.tableMessage);
             this.tableAttachments = new AttachmentsDataTable();
             base.Tables.Add(this.tableAttachments);
-            this.tableHeaders = new HeadersDataTable();
-            base.Tables.Add(this.tableHeaders);
+            this.tableMessageHeaders = new MessageHeadersDataTable();
+            base.Tables.Add(this.tableMessageHeaders);
             global::System.Data.ForeignKeyConstraint fkc;
             fkc = new global::System.Data.ForeignKeyConstraint("FK_Mensaje_Attachments", new global::System.Data.DataColumn[] {
-                        this.tableMensaje.MessageIdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableMessage.MessageIdColumn}, new global::System.Data.DataColumn[] {
                         this.tableAttachments.MessageIdColumn});
             this.tableAttachments.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.Cascade;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
             this.relationFK_Mensaje_Attachments = new global::System.Data.DataRelation("FK_Mensaje_Attachments", new global::System.Data.DataColumn[] {
-                        this.tableMensaje.MessageIdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableMessage.MessageIdColumn}, new global::System.Data.DataColumn[] {
                         this.tableAttachments.MessageIdColumn}, false);
             this.Relations.Add(this.relationFK_Mensaje_Attachments);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerializeMensaje() {
+        private bool ShouldSerializeMessage() {
             return false;
         }
         
@@ -289,7 +289,7 @@ namespace NetMail.DataSets {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerializeHeaders() {
+        private bool ShouldSerializeMessageHeaders() {
             return false;
         }
         
@@ -349,20 +349,20 @@ namespace NetMail.DataSets {
         }
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void MensajeRowChangeEventHandler(object sender, MensajeRowChangeEvent e);
+        public delegate void MessageRowChangeEventHandler(object sender, MessageRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public delegate void AttachmentsRowChangeEventHandler(object sender, AttachmentsRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void HeadersRowChangeEventHandler(object sender, HeadersRowChangeEvent e);
+        public delegate void MessageHeadersRowChangeEventHandler(object sender, MessageHeadersRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class MensajeDataTable : global::System.Data.TypedTableBase<MensajeRow> {
+        public partial class MessageDataTable : global::System.Data.TypedTableBase<MessageRow> {
             
             private global::System.Data.DataColumn columnSubject;
             
@@ -386,8 +386,8 @@ namespace NetMail.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public MensajeDataTable() {
-                this.TableName = "Mensaje";
+            public MessageDataTable() {
+                this.TableName = "Message";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -395,7 +395,7 @@ namespace NetMail.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal MensajeDataTable(global::System.Data.DataTable table) {
+            internal MessageDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -412,7 +412,7 @@ namespace NetMail.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected MensajeDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected MessageDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
@@ -508,34 +508,34 @@ namespace NetMail.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public MensajeRow this[int index] {
+            public MessageRow this[int index] {
                 get {
-                    return ((MensajeRow)(this.Rows[index]));
+                    return ((MessageRow)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event MensajeRowChangeEventHandler MensajeRowChanging;
+            public event MessageRowChangeEventHandler MessageRowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event MensajeRowChangeEventHandler MensajeRowChanged;
+            public event MessageRowChangeEventHandler MessageRowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event MensajeRowChangeEventHandler MensajeRowDeleting;
+            public event MessageRowChangeEventHandler MessageRowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event MensajeRowChangeEventHandler MensajeRowDeleted;
+            public event MessageRowChangeEventHandler MessageRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void AddMensajeRow(MensajeRow row) {
+            public void AddMessageRow(MessageRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public MensajeRow AddMensajeRow(string Subject, string ToName, string ToAddr, string FromName, string FromEmail, string Importance, System.DateTime DateSent, string Body, int MessageId, string UniqueId) {
-                MensajeRow rowMensajeRow = ((MensajeRow)(this.NewRow()));
+            public MessageRow AddMessageRow(string Subject, string ToName, string ToAddr, string FromName, string FromEmail, string Importance, System.DateTime DateSent, string Body, int MessageId, string UniqueId) {
+                MessageRow rowMessageRow = ((MessageRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Subject,
                         ToName,
@@ -547,22 +547,22 @@ namespace NetMail.DataSets {
                         Body,
                         MessageId,
                         UniqueId};
-                rowMensajeRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowMensajeRow);
-                return rowMensajeRow;
+                rowMessageRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowMessageRow);
+                return rowMessageRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public MensajeRow FindByMessageId(int MessageId) {
-                return ((MensajeRow)(this.Rows.Find(new object[] {
+            public MessageRow FindByMessageId(int MessageId) {
+                return ((MessageRow)(this.Rows.Find(new object[] {
                             MessageId})));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                MensajeDataTable cln = ((MensajeDataTable)(base.Clone()));
+                MessageDataTable cln = ((MessageDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -570,7 +570,7 @@ namespace NetMail.DataSets {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new MensajeDataTable();
+                return new MessageDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -627,28 +627,28 @@ namespace NetMail.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public MensajeRow NewMensajeRow() {
-                return ((MensajeRow)(this.NewRow()));
+            public MessageRow NewMessageRow() {
+                return ((MessageRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new MensajeRow(builder);
+                return new MessageRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(MensajeRow);
+                return typeof(MessageRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.MensajeRowChanged != null)) {
-                    this.MensajeRowChanged(this, new MensajeRowChangeEvent(((MensajeRow)(e.Row)), e.Action));
+                if ((this.MessageRowChanged != null)) {
+                    this.MessageRowChanged(this, new MessageRowChangeEvent(((MessageRow)(e.Row)), e.Action));
                 }
             }
             
@@ -656,8 +656,8 @@ namespace NetMail.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.MensajeRowChanging != null)) {
-                    this.MensajeRowChanging(this, new MensajeRowChangeEvent(((MensajeRow)(e.Row)), e.Action));
+                if ((this.MessageRowChanging != null)) {
+                    this.MessageRowChanging(this, new MessageRowChangeEvent(((MessageRow)(e.Row)), e.Action));
                 }
             }
             
@@ -665,8 +665,8 @@ namespace NetMail.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.MensajeRowDeleted != null)) {
-                    this.MensajeRowDeleted(this, new MensajeRowChangeEvent(((MensajeRow)(e.Row)), e.Action));
+                if ((this.MessageRowDeleted != null)) {
+                    this.MessageRowDeleted(this, new MessageRowChangeEvent(((MessageRow)(e.Row)), e.Action));
                 }
             }
             
@@ -674,14 +674,14 @@ namespace NetMail.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.MensajeRowDeleting != null)) {
-                    this.MensajeRowDeleting(this, new MensajeRowChangeEvent(((MensajeRow)(e.Row)), e.Action));
+                if ((this.MessageRowDeleting != null)) {
+                    this.MessageRowDeleting(this, new MessageRowChangeEvent(((MessageRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void RemoveMensajeRow(MensajeRow row) {
+            public void RemoveMessageRow(MessageRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -708,7 +708,7 @@ namespace NetMail.DataSets {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "MensajeDataTable";
+                attribute2.FixedValue = "MessageDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -876,7 +876,7 @@ namespace NetMail.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public AttachmentsRow AddAttachmentsRow(MensajeRow parentMensajeRowByFK_Mensaje_Attachments, string MimeType, string AttachmentName, byte[] Attachment) {
+            public AttachmentsRow AddAttachmentsRow(MessageRow parentMessageRowByFK_Mensaje_Attachments, string MimeType, string AttachmentName, byte[] Attachment) {
                 AttachmentsRow rowAttachmentsRow = ((AttachmentsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -884,8 +884,8 @@ namespace NetMail.DataSets {
                         null,
                         AttachmentName,
                         Attachment};
-                if ((parentMensajeRowByFK_Mensaje_Attachments != null)) {
-                    columnValuesArray[0] = parentMensajeRowByFK_Mensaje_Attachments[8];
+                if ((parentMessageRowByFK_Mensaje_Attachments != null)) {
+                    columnValuesArray[0] = parentMessageRowByFK_Mensaje_Attachments[8];
                 }
                 rowAttachmentsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowAttachmentsRow);
@@ -1076,7 +1076,7 @@ namespace NetMail.DataSets {
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class HeadersDataTable : global::System.Data.TypedTableBase<HeadersRow> {
+        public partial class MessageHeadersDataTable : global::System.Data.TypedTableBase<MessageHeadersRow> {
             
             private global::System.Data.DataColumn columnFromSubject;
             
@@ -1090,8 +1090,8 @@ namespace NetMail.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public HeadersDataTable() {
-                this.TableName = "Headers";
+            public MessageHeadersDataTable() {
+                this.TableName = "MessageHeaders";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -1099,7 +1099,7 @@ namespace NetMail.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal HeadersDataTable(global::System.Data.DataTable table) {
+            internal MessageHeadersDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -1116,7 +1116,7 @@ namespace NetMail.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected HeadersDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected MessageHeadersDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
@@ -1172,49 +1172,49 @@ namespace NetMail.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public HeadersRow this[int index] {
+            public MessageHeadersRow this[int index] {
                 get {
-                    return ((HeadersRow)(this.Rows[index]));
+                    return ((MessageHeadersRow)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event HeadersRowChangeEventHandler HeadersRowChanging;
+            public event MessageHeadersRowChangeEventHandler MessageHeadersRowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event HeadersRowChangeEventHandler HeadersRowChanged;
+            public event MessageHeadersRowChangeEventHandler MessageHeadersRowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event HeadersRowChangeEventHandler HeadersRowDeleting;
+            public event MessageHeadersRowChangeEventHandler MessageHeadersRowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event HeadersRowChangeEventHandler HeadersRowDeleted;
+            public event MessageHeadersRowChangeEventHandler MessageHeadersRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void AddHeadersRow(HeadersRow row) {
+            public void AddMessageHeadersRow(MessageHeadersRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public HeadersRow AddHeadersRow(string FromSubject, int MessageId, string Subject, string From, System.DateTime DateSent) {
-                HeadersRow rowHeadersRow = ((HeadersRow)(this.NewRow()));
+            public MessageHeadersRow AddMessageHeadersRow(string FromSubject, int MessageId, string Subject, string From, System.DateTime DateSent) {
+                MessageHeadersRow rowMessageHeadersRow = ((MessageHeadersRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         FromSubject,
                         MessageId,
                         Subject,
                         From,
                         DateSent};
-                rowHeadersRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowHeadersRow);
-                return rowHeadersRow;
+                rowMessageHeadersRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowMessageHeadersRow);
+                return rowMessageHeadersRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                HeadersDataTable cln = ((HeadersDataTable)(base.Clone()));
+                MessageHeadersDataTable cln = ((MessageHeadersDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -1222,7 +1222,7 @@ namespace NetMail.DataSets {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new HeadersDataTable();
+                return new MessageHeadersDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1256,28 +1256,28 @@ namespace NetMail.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public HeadersRow NewHeadersRow() {
-                return ((HeadersRow)(this.NewRow()));
+            public MessageHeadersRow NewMessageHeadersRow() {
+                return ((MessageHeadersRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new HeadersRow(builder);
+                return new MessageHeadersRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(HeadersRow);
+                return typeof(MessageHeadersRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.HeadersRowChanged != null)) {
-                    this.HeadersRowChanged(this, new HeadersRowChangeEvent(((HeadersRow)(e.Row)), e.Action));
+                if ((this.MessageHeadersRowChanged != null)) {
+                    this.MessageHeadersRowChanged(this, new MessageHeadersRowChangeEvent(((MessageHeadersRow)(e.Row)), e.Action));
                 }
             }
             
@@ -1285,8 +1285,8 @@ namespace NetMail.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.HeadersRowChanging != null)) {
-                    this.HeadersRowChanging(this, new HeadersRowChangeEvent(((HeadersRow)(e.Row)), e.Action));
+                if ((this.MessageHeadersRowChanging != null)) {
+                    this.MessageHeadersRowChanging(this, new MessageHeadersRowChangeEvent(((MessageHeadersRow)(e.Row)), e.Action));
                 }
             }
             
@@ -1294,8 +1294,8 @@ namespace NetMail.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.HeadersRowDeleted != null)) {
-                    this.HeadersRowDeleted(this, new HeadersRowChangeEvent(((HeadersRow)(e.Row)), e.Action));
+                if ((this.MessageHeadersRowDeleted != null)) {
+                    this.MessageHeadersRowDeleted(this, new MessageHeadersRowChangeEvent(((MessageHeadersRow)(e.Row)), e.Action));
                 }
             }
             
@@ -1303,14 +1303,14 @@ namespace NetMail.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.HeadersRowDeleting != null)) {
-                    this.HeadersRowDeleting(this, new HeadersRowChangeEvent(((HeadersRow)(e.Row)), e.Action));
+                if ((this.MessageHeadersRowDeleting != null)) {
+                    this.MessageHeadersRowDeleting(this, new MessageHeadersRowChangeEvent(((MessageHeadersRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void RemoveHeadersRow(HeadersRow row) {
+            public void RemoveMessageHeadersRow(MessageHeadersRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -1337,7 +1337,7 @@ namespace NetMail.DataSets {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "HeadersDataTable";
+                attribute2.FixedValue = "MessageHeadersDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -1381,15 +1381,15 @@ namespace NetMail.DataSets {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class MensajeRow : global::System.Data.DataRow {
+        public partial class MessageRow : global::System.Data.DataRow {
             
-            private MensajeDataTable tableMensaje;
+            private MessageDataTable tableMessage;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal MensajeRow(global::System.Data.DataRowBuilder rb) : 
+            internal MessageRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableMensaje = ((MensajeDataTable)(this.Table));
+                this.tableMessage = ((MessageDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1400,11 +1400,11 @@ namespace NetMail.DataSets {
                         return string.Empty;
                     }
                     else {
-                        return ((string)(this[this.tableMensaje.SubjectColumn]));
+                        return ((string)(this[this.tableMessage.SubjectColumn]));
                     }
                 }
                 set {
-                    this[this.tableMensaje.SubjectColumn] = value;
+                    this[this.tableMessage.SubjectColumn] = value;
                 }
             }
             
@@ -1413,14 +1413,14 @@ namespace NetMail.DataSets {
             public string ToName {
                 get {
                     try {
-                        return ((string)(this[this.tableMensaje.ToNameColumn]));
+                        return ((string)(this[this.tableMessage.ToNameColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ToName\' in table \'Mensaje\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'ToName\' in table \'Message\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableMensaje.ToNameColumn] = value;
+                    this[this.tableMessage.ToNameColumn] = value;
                 }
             }
             
@@ -1432,11 +1432,11 @@ namespace NetMail.DataSets {
                         return string.Empty;
                     }
                     else {
-                        return ((string)(this[this.tableMensaje.ToAddrColumn]));
+                        return ((string)(this[this.tableMessage.ToAddrColumn]));
                     }
                 }
                 set {
-                    this[this.tableMensaje.ToAddrColumn] = value;
+                    this[this.tableMessage.ToAddrColumn] = value;
                 }
             }
             
@@ -1448,11 +1448,11 @@ namespace NetMail.DataSets {
                         return string.Empty;
                     }
                     else {
-                        return ((string)(this[this.tableMensaje.FromNameColumn]));
+                        return ((string)(this[this.tableMessage.FromNameColumn]));
                     }
                 }
                 set {
-                    this[this.tableMensaje.FromNameColumn] = value;
+                    this[this.tableMessage.FromNameColumn] = value;
                 }
             }
             
@@ -1461,14 +1461,14 @@ namespace NetMail.DataSets {
             public string FromEmail {
                 get {
                     try {
-                        return ((string)(this[this.tableMensaje.FromEmailColumn]));
+                        return ((string)(this[this.tableMessage.FromEmailColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'FromEmail\' in table \'Mensaje\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'FromEmail\' in table \'Message\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableMensaje.FromEmailColumn] = value;
+                    this[this.tableMessage.FromEmailColumn] = value;
                 }
             }
             
@@ -1480,11 +1480,11 @@ namespace NetMail.DataSets {
                         return string.Empty;
                     }
                     else {
-                        return ((string)(this[this.tableMensaje.ImportanceColumn]));
+                        return ((string)(this[this.tableMessage.ImportanceColumn]));
                     }
                 }
                 set {
-                    this[this.tableMensaje.ImportanceColumn] = value;
+                    this[this.tableMessage.ImportanceColumn] = value;
                 }
             }
             
@@ -1493,14 +1493,14 @@ namespace NetMail.DataSets {
             public System.DateTime DateSent {
                 get {
                     try {
-                        return ((global::System.DateTime)(this[this.tableMensaje.DateSentColumn]));
+                        return ((global::System.DateTime)(this[this.tableMessage.DateSentColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'DateSent\' in table \'Mensaje\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'DateSent\' in table \'Message\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableMensaje.DateSentColumn] = value;
+                    this[this.tableMessage.DateSentColumn] = value;
                 }
             }
             
@@ -1512,11 +1512,11 @@ namespace NetMail.DataSets {
                         return string.Empty;
                     }
                     else {
-                        return ((string)(this[this.tableMensaje.BodyColumn]));
+                        return ((string)(this[this.tableMessage.BodyColumn]));
                     }
                 }
                 set {
-                    this[this.tableMensaje.BodyColumn] = value;
+                    this[this.tableMessage.BodyColumn] = value;
                 }
             }
             
@@ -1524,10 +1524,10 @@ namespace NetMail.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public int MessageId {
                 get {
-                    return ((int)(this[this.tableMensaje.MessageIdColumn]));
+                    return ((int)(this[this.tableMessage.MessageIdColumn]));
                 }
                 set {
-                    this[this.tableMensaje.MessageIdColumn] = value;
+                    this[this.tableMessage.MessageIdColumn] = value;
                 }
             }
             
@@ -1539,120 +1539,120 @@ namespace NetMail.DataSets {
                         return string.Empty;
                     }
                     else {
-                        return ((string)(this[this.tableMensaje.UniqueIdColumn]));
+                        return ((string)(this[this.tableMessage.UniqueIdColumn]));
                     }
                 }
                 set {
-                    this[this.tableMensaje.UniqueIdColumn] = value;
+                    this[this.tableMessage.UniqueIdColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsSubjectNull() {
-                return this.IsNull(this.tableMensaje.SubjectColumn);
+                return this.IsNull(this.tableMessage.SubjectColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetSubjectNull() {
-                this[this.tableMensaje.SubjectColumn] = global::System.Convert.DBNull;
+                this[this.tableMessage.SubjectColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsToNameNull() {
-                return this.IsNull(this.tableMensaje.ToNameColumn);
+                return this.IsNull(this.tableMessage.ToNameColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetToNameNull() {
-                this[this.tableMensaje.ToNameColumn] = global::System.Convert.DBNull;
+                this[this.tableMessage.ToNameColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsToAddrNull() {
-                return this.IsNull(this.tableMensaje.ToAddrColumn);
+                return this.IsNull(this.tableMessage.ToAddrColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetToAddrNull() {
-                this[this.tableMensaje.ToAddrColumn] = global::System.Convert.DBNull;
+                this[this.tableMessage.ToAddrColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsFromNameNull() {
-                return this.IsNull(this.tableMensaje.FromNameColumn);
+                return this.IsNull(this.tableMessage.FromNameColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetFromNameNull() {
-                this[this.tableMensaje.FromNameColumn] = global::System.Convert.DBNull;
+                this[this.tableMessage.FromNameColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsFromEmailNull() {
-                return this.IsNull(this.tableMensaje.FromEmailColumn);
+                return this.IsNull(this.tableMessage.FromEmailColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetFromEmailNull() {
-                this[this.tableMensaje.FromEmailColumn] = global::System.Convert.DBNull;
+                this[this.tableMessage.FromEmailColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsImportanceNull() {
-                return this.IsNull(this.tableMensaje.ImportanceColumn);
+                return this.IsNull(this.tableMessage.ImportanceColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetImportanceNull() {
-                this[this.tableMensaje.ImportanceColumn] = global::System.Convert.DBNull;
+                this[this.tableMessage.ImportanceColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsDateSentNull() {
-                return this.IsNull(this.tableMensaje.DateSentColumn);
+                return this.IsNull(this.tableMessage.DateSentColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetDateSentNull() {
-                this[this.tableMensaje.DateSentColumn] = global::System.Convert.DBNull;
+                this[this.tableMessage.DateSentColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsBodyNull() {
-                return this.IsNull(this.tableMensaje.BodyColumn);
+                return this.IsNull(this.tableMessage.BodyColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetBodyNull() {
-                this[this.tableMensaje.BodyColumn] = global::System.Convert.DBNull;
+                this[this.tableMessage.BodyColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsUniqueIdNull() {
-                return this.IsNull(this.tableMensaje.UniqueIdColumn);
+                return this.IsNull(this.tableMessage.UniqueIdColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetUniqueIdNull() {
-                this[this.tableMensaje.UniqueIdColumn] = global::System.Convert.DBNull;
+                this[this.tableMessage.UniqueIdColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1753,9 +1753,9 @@ namespace NetMail.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public MensajeRow MensajeRow {
+            public MessageRow MensajeRow {
                 get {
-                    return ((MensajeRow)(this.GetParentRow(this.Table.ParentRelations["FK_Mensaje_Attachments"])));
+                    return ((MessageRow)(this.GetParentRow(this.Table.ParentRelations["FK_Mensaje_Attachments"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_Mensaje_Attachments"]);
@@ -1802,15 +1802,15 @@ namespace NetMail.DataSets {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class HeadersRow : global::System.Data.DataRow {
+        public partial class MessageHeadersRow : global::System.Data.DataRow {
             
-            private HeadersDataTable tableHeaders;
+            private MessageHeadersDataTable tableMessageHeaders;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal HeadersRow(global::System.Data.DataRowBuilder rb) : 
+            internal MessageHeadersRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableHeaders = ((HeadersDataTable)(this.Table));
+                this.tableMessageHeaders = ((MessageHeadersDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1821,11 +1821,11 @@ namespace NetMail.DataSets {
                         return string.Empty;
                     }
                     else {
-                        return ((string)(this[this.tableHeaders.FromSubjectColumn]));
+                        return ((string)(this[this.tableMessageHeaders.FromSubjectColumn]));
                     }
                 }
                 set {
-                    this[this.tableHeaders.FromSubjectColumn] = value;
+                    this[this.tableMessageHeaders.FromSubjectColumn] = value;
                 }
             }
             
@@ -1834,14 +1834,14 @@ namespace NetMail.DataSets {
             public int MessageId {
                 get {
                     try {
-                        return ((int)(this[this.tableHeaders.MessageIdColumn]));
+                        return ((int)(this[this.tableMessageHeaders.MessageIdColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'MessageId\' in table \'Headers\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'MessageId\' in table \'MessageHeaders\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableHeaders.MessageIdColumn] = value;
+                    this[this.tableMessageHeaders.MessageIdColumn] = value;
                 }
             }
             
@@ -1853,11 +1853,11 @@ namespace NetMail.DataSets {
                         return string.Empty;
                     }
                     else {
-                        return ((string)(this[this.tableHeaders.SubjectColumn]));
+                        return ((string)(this[this.tableMessageHeaders.SubjectColumn]));
                     }
                 }
                 set {
-                    this[this.tableHeaders.SubjectColumn] = value;
+                    this[this.tableMessageHeaders.SubjectColumn] = value;
                 }
             }
             
@@ -1869,11 +1869,11 @@ namespace NetMail.DataSets {
                         return string.Empty;
                     }
                     else {
-                        return ((string)(this[this.tableHeaders.FromColumn]));
+                        return ((string)(this[this.tableMessageHeaders.FromColumn]));
                     }
                 }
                 set {
-                    this[this.tableHeaders.FromColumn] = value;
+                    this[this.tableMessageHeaders.FromColumn] = value;
                 }
             }
             
@@ -1882,75 +1882,75 @@ namespace NetMail.DataSets {
             public System.DateTime DateSent {
                 get {
                     try {
-                        return ((global::System.DateTime)(this[this.tableHeaders.DateSentColumn]));
+                        return ((global::System.DateTime)(this[this.tableMessageHeaders.DateSentColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'DateSent\' in table \'Headers\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'DateSent\' in table \'MessageHeaders\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableHeaders.DateSentColumn] = value;
+                    this[this.tableMessageHeaders.DateSentColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsFromSubjectNull() {
-                return this.IsNull(this.tableHeaders.FromSubjectColumn);
+                return this.IsNull(this.tableMessageHeaders.FromSubjectColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetFromSubjectNull() {
-                this[this.tableHeaders.FromSubjectColumn] = global::System.Convert.DBNull;
+                this[this.tableMessageHeaders.FromSubjectColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsMessageIdNull() {
-                return this.IsNull(this.tableHeaders.MessageIdColumn);
+                return this.IsNull(this.tableMessageHeaders.MessageIdColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetMessageIdNull() {
-                this[this.tableHeaders.MessageIdColumn] = global::System.Convert.DBNull;
+                this[this.tableMessageHeaders.MessageIdColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsSubjectNull() {
-                return this.IsNull(this.tableHeaders.SubjectColumn);
+                return this.IsNull(this.tableMessageHeaders.SubjectColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetSubjectNull() {
-                this[this.tableHeaders.SubjectColumn] = global::System.Convert.DBNull;
+                this[this.tableMessageHeaders.SubjectColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsFromNull() {
-                return this.IsNull(this.tableHeaders.FromColumn);
+                return this.IsNull(this.tableMessageHeaders.FromColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetFromNull() {
-                this[this.tableHeaders.FromColumn] = global::System.Convert.DBNull;
+                this[this.tableMessageHeaders.FromColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsDateSentNull() {
-                return this.IsNull(this.tableHeaders.DateSentColumn);
+                return this.IsNull(this.tableMessageHeaders.DateSentColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetDateSentNull() {
-                this[this.tableHeaders.DateSentColumn] = global::System.Convert.DBNull;
+                this[this.tableMessageHeaders.DateSentColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -1958,22 +1958,22 @@ namespace NetMail.DataSets {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class MensajeRowChangeEvent : global::System.EventArgs {
+        public class MessageRowChangeEvent : global::System.EventArgs {
             
-            private MensajeRow eventRow;
+            private MessageRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public MensajeRowChangeEvent(MensajeRow row, global::System.Data.DataRowAction action) {
+            public MessageRowChangeEvent(MessageRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public MensajeRow Row {
+            public MessageRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -2026,22 +2026,22 @@ namespace NetMail.DataSets {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class HeadersRowChangeEvent : global::System.EventArgs {
+        public class MessageHeadersRowChangeEvent : global::System.EventArgs {
             
-            private HeadersRow eventRow;
+            private MessageHeadersRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public HeadersRowChangeEvent(HeadersRow row, global::System.Data.DataRowAction action) {
+            public MessageHeadersRowChangeEvent(MessageHeadersRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public HeadersRow Row {
+            public MessageHeadersRow Row {
                 get {
                     return this.eventRow;
                 }
