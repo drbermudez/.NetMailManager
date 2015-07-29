@@ -228,7 +228,7 @@ namespace NetMail
                 SmtpClient client = BuildSmtp(serverAddress, userName, password, port, useSSL);
                 MailMessage mail = BuildMail(from, fromDisplayName, to, toDisplayName, subject, body, priority, attachmentsUrls);
 
-                client.UseDefaultCredentials = false;
+                client.TargetName = "STARTTLS/" + serverAddress;
                 client.Send(mail);
                 mail.Dispose();
                 client.Dispose();
@@ -268,7 +268,8 @@ namespace NetMail
                 SmtpClient client = BuildSmtp(SMTPHost, SMTPUsername, SMTPPassword, SMTPPort, EnableSSL);
                 MailMessage mail = BuildMail(Sender, SenderDisplayName, Receiver, ReceiverDisplayName, Subject, Body, Priority, AttachmentUrls);
 
-                client.UseDefaultCredentials = false;
+                client.TargetName = "STARTTLS/" + SMTPHost;
+           
                 client.Send(mail);
                 mail.Dispose();
                 client.Dispose();
@@ -419,7 +420,7 @@ namespace NetMail
                 DownloadedMessages.Message.AcceptChanges();
 
                 //try and get attachments
-                int messageId = ((int)(DownloadedMessages.Message.Rows[DownloadedMessages.Message.Rows.Count - 1]["MessageId"]));
+                int messageId = Int32.Parse(DownloadedMessages.Message.Rows[DownloadedMessages.Message.Rows.Count - 1]["MessageId"].ToString());
                 List<MessagePart> attachments = message.FindAllAttachments();
                 foreach (MessagePart attachment in attachments)
                 {
