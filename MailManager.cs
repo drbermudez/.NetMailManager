@@ -145,7 +145,7 @@ namespace NetMail
             error = null;
             errorList = new List<ErrorManager>();
             DownloadedMessages = new dsTables();
-            AttachmentUrls = null;
+            AttachmentUrls = new List<string>();
             EnableSSL = true;
         }
 
