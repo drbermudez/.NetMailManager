@@ -295,7 +295,7 @@ namespace NetMail
 
                 return false;
             }
-        }
+        }        
 
         /// <summary>
         /// Example showing:
@@ -347,6 +347,8 @@ namespace NetMail
 
                         // Add the uid to the seen uids, as it has now been seen
                         seenUids.Add(currentUidOnServer);
+
+                        PrepareMessageAndAttachments(newMessages);
                     }
                 }                
             }            
@@ -385,6 +387,52 @@ namespace NetMail
                 for (int i = messageCount; i > 0; i--)
                 {
                     allMessages.Add(client.GetMessage(i));
+                }
+
+                PrepareMessageAndAttachments(allMessages);
+            }
+        }
+
+        /// <summary>
+        /// Prepares and inserts all messages and attachments into the corresponding data tables
+        /// </summary>
+        /// <param name="messageList">List of Message objects with messages</param>
+        private void PrepareMessageAndAttachments(List<Message> messageList)
+        {
+            foreach (Message message in messageList)
+            {
+                dsTables.MessageRow row = DownloadedMessages.Message.NewMessageRow();
+
+                row.Body = message.MessagePart.GetBodyAsText();
+                row.DateSent = message.Headers.DateSent;
+                row.FromEmail = message.Headers.From.Address;
+                row.FromName = message.Headers.From.DisplayName;
+                row.Importance = message.Headers.Importance.ToString();
+                row.UniqueId = message.Headers.MessageId;
+                row.Subject = message.Headers.Subject;
+                for (int x = 0; x < message.Headers.To.Count; x++)
+                {
+                    row.ToAddr = message.Headers.To[x].Address + ";";
+                    row.ToName = message.Headers.To[x].DisplayName + ";";
+                }
+                DownloadedMessages.Message.AddMessageRow(row);
+                DownloadedMessages.Message.AcceptChanges();
+
+                //try and get attachments
+                int messageId = ((int)(DownloadedMessages.Message.Rows[DownloadedMessages.Message.Rows.Count - 1]["MessageId"]));
+                List<MessagePart> attachments = message.FindAllAttachments();
+                foreach (MessagePart attachment in attachments)
+                {
+                    dsTables.AttachmentsRow attach = DownloadedMessages.Attachments.NewAttachmentsRow();
+
+                    if (attachment.IsAttachment)
+                    {
+                        attach.Attachment = attachment.Body;
+                        attach.AttachmentName = attachment.FileName;
+                        attach.MimeType = attachment.ContentType.MediaType;
+                        attach.MessageId = messageId;
+                        DownloadedMessages.Attachments.AddAttachmentsRow(attach);
+                    }
                 }
             }
         }
