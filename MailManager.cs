@@ -167,6 +167,7 @@ namespace NetMail
             smtpServer.Port = port;
             smtpServer.EnableSsl = useSSL;
             smtpServer.Host = serverAddress;
+            smtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
 
             return smtpServer;
         }
