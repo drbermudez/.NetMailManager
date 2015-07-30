@@ -19,6 +19,7 @@ namespace NetMail
 {
     public class MailManager
     {
+        #region "Public Properties"
         /// <summary>
         /// Gets or sets the message's delivery priority
         /// </summary>
@@ -40,13 +41,7 @@ namespace NetMail
         /// </summary>
         /// <value>String</value>
         /// <returns>String</returns>
-        public string Receiver { get; set; }
-        /// <summary>
-        /// Gets or Sets the recipient's display name
-        /// </summary>
-        /// <value>String</value>
-        /// <returns>String</returns>
-        public string ReceiverDisplayName { get; set; }
+        public List<Recipient> Recipients { get; set; }
         /// <summary>
         /// Gets or Sets the sender's email address
         /// </summary>
@@ -120,6 +115,10 @@ namespace NetMail
         /// <returns>True or False</returns>
         public bool EnableSSL { get; set; }
         /// <summary>
+        /// Enable or disable TLS
+        /// </summary>
+        public bool UseTLS { get; set; }
+        /// <summary>
         /// Gets a list of errors that might have ocurred
         /// </summary>
         /// <value>String</value>
@@ -132,10 +131,12 @@ namespace NetMail
         /// Gets the messages that were downloaded through POP3 if fetching from the server
         /// </summary>
         public dsTables DownloadedMessages { get; private set; }
+        #endregion
 
+        #region "Private declarations"
         private ErrorManager error;
         private List<ErrorManager> errorList;
-        private DataSet theMail = new DataSet();
+        #endregion
 
         /// <summary>
         /// Main constructor
@@ -145,6 +146,7 @@ namespace NetMail
             error = null;
             errorList = new List<ErrorManager>();
             DownloadedMessages = new dsTables();
+            Recipients = new List<Recipient>();
             AttachmentUrls = new List<string>();
             EnableSSL = true;
         }
@@ -160,14 +162,12 @@ namespace NetMail
         /// <returns>Pre-Built SMTP object</returns>
         private SmtpClient BuildSmtp(string serverAddress, string userName, string password, int port, bool useSSL)
         {
-            SmtpClient smtpServer = new SmtpClient();
-
+            SmtpClient smtpServer = new SmtpClient(serverAddress, port);
+            
             smtpServer.UseDefaultCredentials = false;
-            smtpServer.Credentials = new NetworkCredential(userName, password);
-            smtpServer.Port = port;
-            smtpServer.EnableSsl = useSSL;
-            smtpServer.Host = serverAddress;
+            smtpServer.Credentials = new System.Net.NetworkCredential(userName, password);
             smtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtpServer.EnableSsl = useSSL;
 
             return smtpServer;
         }
@@ -184,215 +184,28 @@ namespace NetMail
         /// <param name="priority">Message priority</param>
         /// <param name="attachmentsUrls">List of URLs or paths of the files to attach</param>
         /// <returns>Pre-Built Mail object</returns>
-        private MailMessage BuildMail(string from, string fromDisplayName, string to, string toDisplayName, string subject, string body, MailPriority priority, List<string> attachmentsUrls)
+        private MailMessage BuildMail(string from, string fromDisplayName, List<Recipient> recipients, string subject, string body, MailPriority priority, List<string> attachmentsUrls)
         {
             MailMessage mail = new MailMessage();
             mail.From = new MailAddress(from, fromDisplayName);
-            mail.To.Add(new MailAddress(to, toDisplayName));
-            if (attachmentsUrls.Count > 0)
+            foreach (Recipient recipient in recipients)
             {
-                foreach (string item in attachmentsUrls)
+                mail.To.Add(new MailAddress(recipient.Address, recipient.FullName));
+                if (attachmentsUrls.Count > 0)
                 {
-                    mail.Attachments.Add(new Attachment(item));
+                    foreach (string item in attachmentsUrls)
+                    {
+                        mail.Attachments.Add(new Attachment(item));
+                    }
                 }
             }
             mail.Subject = Subject;
-            mail.Body = Body;
+            mail.Body = @Body;
+            mail.BodyEncoding = UTF8Encoding.UTF8;
+            mail.IsBodyHtml = true;
             mail.Priority = priority;
 
             return mail;
-        }
-
-        /// <summary>
-        /// Send a quick email message.  Use this method if not using the class properties
-        /// </summary>
-        /// <param name="from">Sender email address</param>
-        /// <param name="fromDisplayName">Sender full name</param>
-        /// <param name="to">Receiver email address</param>
-        /// <param name="toDisplayName">Receiver full name</param>
-        /// <param name="subject">Message subject</param>
-        /// <param name="body">Message body</param>
-        /// <param name="priority">Message priority</param>
-        /// <param name="attachmentsUrls">Lisft of URLs or paths of the files to attach</param>
-        /// <param name="useSSL">Use Secure Socket Layer (true or false)</param>
-        /// <param name="serverAddress">Mail server's IP address or host name</param>
-        /// <param name="userName">Sender's mail account username (usually the email address)</param>
-        /// <param name="password">Sender's mail account password</param>
-        /// <param name="port">SMTP port</param>
-        /// <returns>True if successful; False if not</returns>
-        public bool SendMail(string from, string fromDisplayName, string to, string toDisplayName, string subject,
-                             string body, MailPriority priority, List<string> attachmentsUrls, bool useSSL,
-                             string serverAddress, string userName, string password, int port)
-        {
-            try
-            {
-                SmtpClient client = BuildSmtp(serverAddress, userName, password, port, useSSL);
-                MailMessage mail = BuildMail(from, fromDisplayName, to, toDisplayName, subject, body, priority, attachmentsUrls);
-
-                //client.TargetName = "STARTTLS/" + serverAddress;
-                client.Send(mail);
-                mail.Dispose();
-                client.Dispose();
-
-                return true;
-            }
-            catch (SmtpException smtp)
-            {
-                error = new ErrorManager();
-                error.Message = smtp.Message;
-                error.Source = smtp.Source;
-                error.InnerException = smtp.InnerException;
-                errorList.Add(error);
-
-                return false;
-            }
-            catch (Exception ex)
-            {
-                error = new ErrorManager();
-                error.Message = ex.Message;
-                error.Source = ex.Source;
-                error.InnerException = ex.InnerException;
-                errorList.Add(error);
-
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Send a mail message.  Use this method with the class properties
-        /// </summary>
-        /// <returns>True if successful, otherwise False</returns>
-        public bool SendMail()
-        {
-            try
-            {
-                SmtpClient client = BuildSmtp(SMTPHost, SMTPUsername, SMTPPassword, SMTPPort, EnableSSL);
-                MailMessage mail = BuildMail(Sender, SenderDisplayName, Receiver, ReceiverDisplayName, Subject, Body, Priority, AttachmentUrls);
-
-                client.TargetName = "STARTTLS/" + SMTPHost;
-           
-                client.Send(mail);
-                mail.Dispose();
-                client.Dispose();
-
-                return true;
-            }
-            catch (SmtpException smtp)
-            {
-                error = new ErrorManager();
-                error.Message = smtp.Message;
-                error.Source = smtp.Source;
-                error.InnerException = smtp.InnerException;
-                errorList.Add(error);
-
-                return false;
-            }
-            catch (Exception ex)
-            {
-                error = new ErrorManager();
-                error.Message = ex.Message;
-                error.Source = ex.Source;
-                error.InnerException = ex.InnerException;
-                errorList.Add(error);
-
-                return false;
-            }
-        }        
-
-        /// <summary>
-        /// Example showing:
-        ///  - how to use UID's (unique ID's) of messages from the POP3 server
-        ///  - how to download messages not seen before
-        ///    (notice that the POP3 protocol cannot see if a message has been read on the server
-        ///     before. Therefore the client need to maintain this state for itself)
-        /// </summary>       
-        /// <param name="seenUids">
-        /// List of UID's of all messages seen before.
-        /// New message UID's will be added to the list.
-        /// Consider using a HashSet if you are using >= 3.5 .NET
-        /// </param>
-        /// <returns>A List of new Messages on the server</returns>
-        public void FetchUnseenMessages(List<string> seenUids)
-        {
-            // The client disconnects from the server when being disposed
-            using (Pop3Client client = new Pop3Client())
-            {
-                // Connect to the server
-                client.Connect(POPHost, POPPort, EnableSSL);
-
-                // Authenticate ourselves towards the server
-                client.Authenticate(POPUsername, POPPassword);
-
-                // Fetch all the current uids seen
-                List<string> uids = client.GetMessageUids();
-
-                // Create a list we can return with all new messages
-                List<Message> newMessages = new List<Message>();
-
-                // All the new messages not seen by the POP3 client
-                for (int i = 0; i < uids.Count; i++)
-                {
-                    string currentUidOnServer = uids[i];
-                    if (!seenUids.Contains(currentUidOnServer))
-                    {
-                        // We have not seen this message before.
-                        // Download it and add this new uid to seen uids
-
-                        // the uids list is in messageNumber order - meaning that the first
-                        // uid in the list has messageNumber of 1, and the second has 
-                        // messageNumber 2. Therefore we can fetch the message using
-                        // i + 1 since messageNumber should be in range [1, messageCount]
-                        Message unseenMessage = client.GetMessage(i + 1);
-
-                        // Add the message to the new messages
-                        newMessages.Add(unseenMessage);
-
-                        // Add the uid to the seen uids, as it has now been seen
-                        seenUids.Add(currentUidOnServer);
-
-                        PrepareMessageAndAttachments(newMessages);
-                    }
-                }                
-            }            
-        }
-
-        /// <summary>
-        /// Example showing:
-        ///  - how to fetch all messages from a POP3 server
-        /// </summary>
-        /// <param name="hostname">Hostname of the server. For example: pop3.live.com</param>
-        /// <param name="port">Host port to connect to. Normally: 110 for plain POP3, 995 for SSL POP3</param>
-        /// <param name="useSsl">Whether or not to use SSL to connect to server</param>
-        /// <param name="username">Username of the user on the server</param>
-        /// <param name="password">Password of the user on the server</param>
-        /// <returns>All Messages on the POP3 server</returns>
-        public void FetchAllMessages()
-        {
-            // The client disconnects from the server when being disposed
-            using (Pop3Client client = new Pop3Client())
-            {
-                // Connect to the server
-                client.Connect(POPHost, POPPort, EnableSSL);
-
-                // Authenticate ourselves towards the server
-                client.Authenticate(POPUsername, POPPassword);
-
-                // Get the number of messages in the inbox
-                int messageCount = client.GetMessageCount();
-
-                // We want to download all messages
-                List<Message> allMessages = new List<Message>(messageCount);
-
-                // Messages are numbered in the interval: [1, messageCount]
-                // Ergo: message numbers are 1-based.
-                // Most servers give the latest message the highest number
-                for (int i = messageCount; i > 0; i--)
-                {
-                    allMessages.Add(client.GetMessage(i));
-                }
-
-                PrepareMessageAndAttachments(allMessages);
-            }
         }
 
         /// <summary>
@@ -437,6 +250,216 @@ namespace NetMail
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Send a quick email message.  Use this method if not using the class properties
+        /// </summary>
+        /// <param name="from">Sender email address</param>
+        /// <param name="fromDisplayName">Sender full name</param>
+        /// <param name="to">Receiver email address</param>
+        /// <param name="toDisplayName">Receiver full name</param>
+        /// <param name="subject">Message subject</param>
+        /// <param name="body">Message body</param>
+        /// <param name="priority">Message priority</param>
+        /// <param name="attachmentsUrls">Lisft of URLs or paths of the files to attach</param>
+        /// <param name="useSSL">Use Secure Socket Layer (true or false)</param>
+        /// <param name="serverAddress">Mail server's IP address or host name</param>
+        /// <param name="userName">Sender's mail account username (usually the email address)</param>
+        /// <param name="password">Sender's mail account password</param>
+        /// <param name="port">SMTP port</param>
+        /// <returns>True if successful; False if not</returns>
+        public bool SendMail(string from, string fromDisplayName, string to, string toDisplayName, string subject,
+                             string body, MailPriority priority, List<string> attachmentsUrls, bool useSSL,
+                             string serverAddress, string userName, string password, int port, bool useTLS)
+        {
+            try
+            {
+                List<Recipient> recipient = new List<Recipient>(1);
+
+                recipient.Add(new Recipient(to,toDisplayName));
+
+                SmtpClient client = BuildSmtp(serverAddress, userName, password, port, useSSL);
+                MailMessage mail = BuildMail(from, fromDisplayName, recipient, subject, @body, priority, attachmentsUrls);
+
+                SmtpClient smtpServer = new SmtpClient(serverAddress, port);
+
+                smtpServer.UseDefaultCredentials = false;
+                smtpServer.Credentials = new System.Net.NetworkCredential(userName, password);
+                smtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtpServer.EnableSsl = useSSL;
+                if (useTLS)
+                {
+                    client.TargetName = "STARTTLS/" + serverAddress;
+                }                  
+                client.Send(mail);
+                mail.Dispose();
+                client.Dispose();
+
+                return true;
+            }
+            catch (SmtpException smtp)
+            {
+                error = new ErrorManager();
+                error.Message = smtp.Message;
+                error.Source = smtp.Source;
+                error.InnerException = smtp.InnerException;
+                errorList.Add(error);
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                error = new ErrorManager();
+                error.Message = ex.Message;
+                error.Source = ex.Source;
+                error.InnerException = ex.InnerException;
+                errorList.Add(error);
+
+                return false;
+            }
+        }
+       
+
+        /// <summary>
+        /// Send a mail message.  Use this method with the class properties
+        /// </summary>
+        /// <returns>True if successful, otherwise False</returns>
+        public bool SendMail()
+        {
+            try
+            {
+                SmtpClient client = BuildSmtp(SMTPHost, SMTPUsername, SMTPPassword, SMTPPort, EnableSSL);
+                MailMessage mail = BuildMail(Sender, SenderDisplayName, Recipients, Subject, @Body, Priority, AttachmentUrls);
+
+                if (UseTLS)
+                {
+                    client.TargetName = "STARTTLS/" + SMTPHost;
+                }
+                client.Send(mail);
+                mail.Dispose();
+                client.Dispose();
+
+                return true;
+            }
+            catch (SmtpException smtp)
+            {
+                error = new ErrorManager();
+                error.Message = smtp.Message;
+                error.Source = smtp.Source;
+                error.InnerException = smtp.InnerException;
+                errorList.Add(error);
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                error = new ErrorManager();
+                error.Message = ex.Message;
+                error.Source = ex.Source;
+                error.InnerException = ex.InnerException;
+                errorList.Add(error);
+
+                return false;
+            }
+        }        
+
+        /// <summary>
+        /// Example showing:
+        ///  - how to use UID's (unique ID's) of messages from the POP3 server
+        ///  - how to download messages not seen before
+        ///    (notice that the POP3 protocol cannot see if a message has been read on the server
+        ///     before. Therefore the client need to maintain this state for itself)
+        /// </summary>       
+        /// <param name="seenUids">
+        /// List of UID's of all messages seen before.
+        /// New message UID's will be added to the list.
+        /// Consider using a HashSet if you are using >= 3.5 .NET
+        /// </param>
+        /// <returns>A List of new Messages on the server</returns>
+        public dsTables GetUnseenMail(List<string> seenUids)
+        {
+            // The client disconnects from the server when being disposed
+            using (Pop3Client client = new Pop3Client())
+            {
+                // Connect to the server
+                client.Connect(POPHost, POPPort, EnableSSL);
+
+                // Authenticate ourselves towards the server
+                client.Authenticate(POPUsername, POPPassword);
+
+                // Fetch all the current uids seen
+                List<string> uids = client.GetMessageUids();
+
+                // Create a list we can return with all new messages
+                List<Message> newMessages = new List<Message>();
+
+                // All the new messages not seen by the POP3 client
+                for (int i = 0; i < uids.Count; i++)
+                {
+                    string currentUidOnServer = uids[i];
+                    if (!seenUids.Contains(currentUidOnServer))
+                    {
+                        // We have not seen this message before.
+                        // Download it and add this new uid to seen uids
+
+                        // the uids list is in messageNumber order - meaning that the first
+                        // uid in the list has messageNumber of 1, and the second has 
+                        // messageNumber 2. Therefore we can fetch the message using
+                        // i + 1 since messageNumber should be in range [1, messageCount]
+                        Message unseenMessage = client.GetMessage(i + 1);
+
+                        // Add the message to the new messages
+                        newMessages.Add(unseenMessage);
+
+                        // Add the uid to the seen uids, as it has now been seen
+                        seenUids.Add(currentUidOnServer);
+
+                        PrepareMessageAndAttachments(newMessages);
+                    }
+                }                
+            }
+            return DownloadedMessages;
+        }
+
+        /// <summary>
+        /// Example showing:
+        ///  - how to fetch all messages from a POP3 server
+        /// </summary>
+        /// <param name="hostname">Hostname of the server. For example: pop3.live.com</param>
+        /// <param name="port">Host port to connect to. Normally: 110 for plain POP3, 995 for SSL POP3</param>
+        /// <param name="useSsl">Whether or not to use SSL to connect to server</param>
+        /// <param name="username">Username of the user on the server</param>
+        /// <param name="password">Password of the user on the server</param>
+        /// <returns>All Messages on the POP3 server</returns>
+        public dsTables GetAllMail()
+        {
+            // The client disconnects from the server when being disposed
+            using (Pop3Client client = new Pop3Client())
+            {
+                // Connect to the server
+                client.Connect(POPHost, POPPort, EnableSSL);
+
+                // Authenticate ourselves towards the server
+                client.Authenticate(POPUsername, POPPassword);
+
+                // Get the number of messages in the inbox
+                int messageCount = client.GetMessageCount();
+
+                // We want to download all messages
+                List<Message> allMessages = new List<Message>(messageCount);
+
+                // Messages are numbered in the interval: [1, messageCount]
+                // Ergo: message numbers are 1-based.
+                // Most servers give the latest message the highest number
+                for (int i = messageCount; i > 0; i--)
+                {
+                    allMessages.Add(client.GetMessage(i));
+                }
+
+                PrepareMessageAndAttachments(allMessages);
+            }
+            return DownloadedMessages;
         }
     }
 }

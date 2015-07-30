@@ -48,7 +48,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NetMail">
+    <Reference Include="NetMail, Version=1.7.30.2015, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\NetMail\bin\Release\NetMail.dll</HintPath>
     </Reference>
     <Reference Include="System" />

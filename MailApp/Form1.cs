@@ -26,13 +26,13 @@ namespace MailApp
 
                 mail.Body = txtMessage.Text;
                 mail.Subject = txtSubject.Text;
-                mail.Receiver = txtTo.Text;
-                mail.ReceiverDisplayName = "David R Bermudez";
-                mail.SMTPPort = 587;
-                mail.SMTPUsername = "eligibilityerror@firstmedicalpr.com";
-                mail.SMTPHost = "smtp.office365.com";
-                mail.SMTPPassword = "R3p0rtEg1";
-                mail.EnableSSL = true;
+                mail.Recipients.Add(new Recipient(txtTo.Text, "Test Sender"));
+                mail.SMTPPort = 8080;
+                //mail.SMTPUsername = "eligibilityerror@firstmedicalpr.com";
+                mail.SMTPHost = "127.0.0.1"; //"smtp.office365.com";
+                //mail.SMTPPassword = "R3p0rtEg1";
+                mail.EnableSSL = false;
+                mail.UseTLS = false;
                 mail.Priority = System.Net.Mail.MailPriority.High;
                 mail.Sender = "eligibilityerrorreporting@firstmedicalpr.com";
                 mail.SenderDisplayName = "Mr Microsoft";
@@ -45,7 +45,7 @@ namespace MailApp
                     {
                         if (error.InnerException != null)
                         {
-                            MessageBox.Show(error.Message + ": " + error.InnerException.Message);
+                            MessageBox.Show(error.Message + Environment.NewLine + error.InnerException.Message);
                         }
                         else
                         {
@@ -63,6 +63,11 @@ namespace MailApp
         private void button2_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Not implemented");
+        }
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            txtTo.Focus();
         }
     }
 }

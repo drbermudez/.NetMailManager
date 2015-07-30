@@ -75,6 +75,7 @@
             this.txtTo.Name = "txtTo";
             this.txtTo.Size = new System.Drawing.Size(204, 20);
             this.txtTo.TabIndex = 3;
+            this.txtTo.Text = "d.bermudez@firstmedicalpr.com";
             // 
             // txtSubject
             // 
@@ -82,6 +83,7 @@
             this.txtSubject.Name = "txtSubject";
             this.txtSubject.Size = new System.Drawing.Size(204, 20);
             this.txtSubject.TabIndex = 5;
+            this.txtSubject.Text = "NetMail Test Message";
             // 
             // label2
             // 
@@ -100,6 +102,7 @@
             this.txtMessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtMessage.Size = new System.Drawing.Size(464, 207);
             this.txtMessage.TabIndex = 7;
+            this.txtMessage.Text = "Testing NetMail utility";
             // 
             // label3
             // 
@@ -123,9 +126,11 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
+            this.Shown += new System.EventHandler(this.Form1_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
