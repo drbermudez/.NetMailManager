@@ -229,7 +229,7 @@ namespace NetMail
                 SmtpClient client = BuildSmtp(serverAddress, userName, password, port, useSSL);
                 MailMessage mail = BuildMail(from, fromDisplayName, to, toDisplayName, subject, body, priority, attachmentsUrls);
 
-                client.TargetName = "STARTTLS/" + serverAddress;
+                //client.TargetName = "STARTTLS/" + serverAddress;
                 client.Send(mail);
                 mail.Dispose();
                 client.Dispose();
