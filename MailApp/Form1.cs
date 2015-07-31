@@ -32,7 +32,7 @@ namespace MailApp
                 mail.SMTPHost = "smtp.gmail.com"; //"smtp.office365.com";
                 mail.SMTPPassword = "sabrewolf72"; //"R3p0rtEg1";
                 mail.EnableSSL = true;
-                mail.UseTLS = false;
+                mail.UseTLS = true;
                 mail.Priority = System.Net.Mail.MailPriority.High;
                 mail.Sender = "drbermudez84@gmail.com"; //"eligibilityerrorreporting@firstmedicalpr.com";
                 mail.SenderDisplayName = "Mr Microsoft";
