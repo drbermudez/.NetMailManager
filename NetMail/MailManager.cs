@@ -162,13 +162,15 @@ namespace NetMail
         /// <returns>Pre-Built SMTP object</returns>
         private SmtpClient BuildSmtp(string serverAddress, string userName, string password, int port, bool useSSL)
         {
-            SmtpClient smtpServer = new SmtpClient(serverAddress, port);
-            
-            smtpServer.UseDefaultCredentials = false;
-            smtpServer.Credentials = new System.Net.NetworkCredential(userName, password);
-            smtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtpServer.EnableSsl = useSSL;
+            SmtpClient smtpServer = new SmtpClient();
 
+            smtpServer.Host = serverAddress;
+            smtpServer.Port = port;
+            smtpServer.EnableSsl = useSSL;
+            smtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtpServer.UseDefaultCredentials = false;
+            smtpServer.Credentials = new System.Net.NetworkCredential(userName, password);            
+            
             return smtpServer;
         }
 
@@ -187,6 +189,7 @@ namespace NetMail
         private MailMessage BuildMail(string from, string fromDisplayName, List<Recipient> recipients, string subject, string body, MailPriority priority, List<string> attachmentsUrls)
         {
             MailMessage mail = new MailMessage();
+
             mail.From = new MailAddress(from, fromDisplayName);
             foreach (Recipient recipient in recipients)
             {
@@ -199,10 +202,8 @@ namespace NetMail
                     }
                 }
             }
-            mail.Subject = Subject;
-            mail.Body = @Body;
-            mail.BodyEncoding = UTF8Encoding.UTF8;
-            mail.IsBodyHtml = true;
+            mail.Subject = subject;
+            mail.Body = body;
             mail.Priority = priority;
 
             return mail;
@@ -282,16 +283,10 @@ namespace NetMail
                 SmtpClient client = BuildSmtp(serverAddress, userName, password, port, useSSL);
                 MailMessage mail = BuildMail(from, fromDisplayName, recipient, subject, @body, priority, attachmentsUrls);
 
-                SmtpClient smtpServer = new SmtpClient(serverAddress, port);
-
-                smtpServer.UseDefaultCredentials = false;
-                smtpServer.Credentials = new System.Net.NetworkCredential(userName, password);
-                smtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
-                smtpServer.EnableSsl = useSSL;
                 if (useTLS)
                 {
                     client.TargetName = "STARTTLS/" + serverAddress;
-                }                  
+                }    
                 client.Send(mail);
                 mail.Dispose();
                 client.Dispose();
@@ -330,7 +325,7 @@ namespace NetMail
             try
             {
                 SmtpClient client = BuildSmtp(SMTPHost, SMTPUsername, SMTPPassword, SMTPPort, EnableSSL);
-                MailMessage mail = BuildMail(Sender, SenderDisplayName, Recipients, Subject, @Body, Priority, AttachmentUrls);
+                MailMessage mail = BuildMail(Sender, SenderDisplayName, Recipients, Subject, @Body, Priority, AttachmentUrls);                
 
                 if (UseTLS)
                 {
