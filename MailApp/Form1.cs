@@ -30,7 +30,7 @@ namespace MailApp
                 mail.SMTPPort = 587;
                 mail.SMTPUsername = "drbermudez84@gmail.com"; //"eligibilityerror@firstmedicalpr.com";
                 mail.SMTPHost = "smtp.gmail.com"; //"smtp.office365.com";
-                mail.SMTPPassword = "sabrewolf72"; //"R3p0rtEg1";
+                mail.SMTPPassword = ""; //"R3p0rtEg1";
                 mail.EnableSSL = true;
                 mail.UseTLS = true;
                 mail.Priority = System.Net.Mail.MailPriority.High;
