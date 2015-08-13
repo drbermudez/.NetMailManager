@@ -77,7 +77,7 @@ namespace NetMail
         /// </summary>
         /// <value>String</value>
         /// <returns>String</returns>
-        public Int32 SMTPPort { get; set; }
+        public int SMTPPort { get; set; }
         /// <summary>
         /// Gets or Sets the smtp server's address
         /// </summary>
@@ -101,7 +101,7 @@ namespace NetMail
         /// </summary>
         /// <value>String</value>
         /// <returns>String</returns>
-        public Int32 POPPort { get; set; }
+        public int POPPort { get; set; }
         /// <summary>
         /// Gets or Sets the POP server's address
         /// </summary>
@@ -149,6 +149,7 @@ namespace NetMail
             Recipients = new List<Recipient>();
             AttachmentUrls = new List<string>();
             EnableSSL = true;
+            UseTLS = false;
         }
 
         /// <summary>
