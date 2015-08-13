@@ -21,12 +21,12 @@ namespace MailApp
                 mail.Body = txtMessage.Text;
                 mail.Subject = txtSubject.Text;
                 mail.Recipients.Add(new Recipient(txtTo.Text, "Test Sender"));
-                mail.SMTPPort = 465;
-                mail.SMTPUsername = "info@transfieretuvinilpr.com"; 
-                mail.SMTPHost = "smtpout.secureserver.net"; 
-                mail.SMTPPassword = "Davi2002pr418219"; 
+                mail.SMTPPort = 587;
+                mail.SMTPUsername = "drbermudez84@gmail.com"; //"eligibilityerror@firstmedicalpr.com";
+                mail.SMTPHost = "smtp.gmail.com"; //"smtp.office365.com";
+                mail.SMTPPassword = "sabrewolf72"; //"R3p0rtEg1";
                 mail.EnableSSL = true;
-                mail.UseTLS = true;
+                mail.UseTLS = false;
                 mail.Priority = System.Net.Mail.MailPriority.High;
                 mail.Sender = "info@transfieretuvinilpr.com"; 
                 mail.SenderDisplayName = "Mr Microsoft";
