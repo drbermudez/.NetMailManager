@@ -50,7 +50,7 @@
   <ItemGroup>
     <Reference Include="NetMail, Version=1.7.30.2015, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\NetMail\bin\Release\NetMail.dll</HintPath>
+      <HintPath>..\NetMail\bin\Debug\NetMail.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

@@ -169,7 +169,7 @@ namespace NetMail
             smtpServer.EnableSsl = useSSL;
             smtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtpServer.DeliveryFormat = SmtpDeliveryFormat.SevenBit;
-            smtpServer.Timeout = 4000;
+            smtpServer.Timeout = 60;
             smtpServer.UseDefaultCredentials = false;
             smtpServer.Credentials = new System.Net.NetworkCredential(userName, password);            
             
