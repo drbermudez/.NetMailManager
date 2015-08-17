@@ -22,13 +22,13 @@ namespace MailApp
                 mail.Subject = txtSubject.Text;
                 mail.Recipients.Add(new Recipient(txtTo.Text, "Test Sender"));
                 mail.SMTPPort = 587;
-                mail.SMTPUsername = "drbermudez84@gmail.com"; //"eligibilityerror@firstmedicalpr.com";
-                mail.SMTPHost = "smtp.gmail.com"; //"smtp.office365.com";
-                mail.SMTPPassword = "sabrewolf72"; //"R3p0rtEg1";
+                mail.SMTPUsername = "drbermudez84@gmail.com"; 
+                mail.SMTPHost = "smtp.gmail.com"; 
+                mail.SMTPPassword = "sabrewolf72"; 
                 mail.EnableSSL = true;
-                mail.UseTLS = false;
+                mail.UseTLS = true;
                 mail.Priority = System.Net.Mail.MailPriority.High;
-                mail.Sender = "info@transfieretuvinilpr.com"; 
+                mail.Sender = "drbermudez84@gmail.com"; 
                 mail.SenderDisplayName = "Mr Microsoft";
                 mail.AttachmentUrls = new List<string>();
                 bool seFue = mail.SendMail();
